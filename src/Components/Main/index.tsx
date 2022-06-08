@@ -65,11 +65,28 @@ export function Main() {
   }
 
   function AvailableTasksCounter() {
-    const numberOfAvailableTasks = tasks.forEach(task => {
-      if (task.available) {
-
+    let doneTasksCounter = 0
+    for (let i in tasks) {
+      if (!tasks[i].available) {
+        doneTasksCounter += 1
       }
-      return 0
+    }
+    setDoneTaskNumber(doneTasksCounter)
+  }
+
+  function handleRemoveTask(e: MouseEvent<HTMLButtonElement>) {
+    const currentId = e.currentTarget.value
+    const newFilteredTasks = tasks.filter(task => {
+      if (currentId === task.id) {
+        return
+      }
+      return task
+    })
+
+    setTasks(newFilteredTasks)
+
+    setCreatedTaskNumber(oldState => {
+      return oldState - 1
     })
   }
 
@@ -112,6 +129,7 @@ export function Main() {
               key={item.id}
               fullTask={item}
               HandleAvailableChange={HandleAvailableChange}
+              handleRemoveTask={handleRemoveTask}
             />
           ))
         )}

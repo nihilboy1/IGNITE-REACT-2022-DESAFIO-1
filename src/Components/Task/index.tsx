@@ -9,16 +9,17 @@ interface TaskProps {
     available: boolean
   }
   HandleAvailableChange: (e: MouseEvent<HTMLButtonElement>) => void
+  handleRemoveTask: (e: MouseEvent<HTMLButtonElement>) => void
 }
 
-export function Task({ fullTask, HandleAvailableChange }: TaskProps) {
+export function Task({
+  fullTask,
+  HandleAvailableChange,
+  handleRemoveTask
+}: TaskProps) {
   return (
     <div className={S.task}>
-      <button
-        className={S.circleButton}
-        onClick={HandleAvailableChange}
-        value={fullTask.id}
-      >
+      <button className={S.circleButton} onClick={HandleAvailableChange} value={fullTask.id}>
         {fullTask.available ? (
           <Circle size={22} color="#1e6f9f" weight="bold" />
         ) : (
@@ -33,7 +34,11 @@ export function Task({ fullTask, HandleAvailableChange }: TaskProps) {
       <p className={fullTask.available ? '' : S.notAvailable}>
         {fullTask.content}
       </p>
-      <button className={S.trashButton}>
+      <button
+        onClick={handleRemoveTask}
+        value={fullTask.id}
+        className={S.trashButton}
+      >
         <Trash className={S.trash} size={22} weight="thin" />
       </button>
     </div>
